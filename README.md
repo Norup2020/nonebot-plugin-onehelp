@@ -1,2 +1,3 @@
 # nonebot-plugin-onehelp
-Just one help
+
+这是一个旨在让开发者更流畅为编写的插件添加文档的插件,然而因为各种原因, 正式版仍然无法出来, 请移步[测试版分支](../../tree/dev)
