@@ -27,6 +27,8 @@ def get_doc(matcher_):
     
     return None
 
+################ dev
+
 class Reg:
     """
     reg:存储了各moudle的哈希表
@@ -94,6 +96,27 @@ class Reg:
                 return result
 
 
+help_ = on_command('help')
+
+
+@help_.handle()
+async def _help(bot: Bot, event: Event, state: dict):
+    """
+    help 命令名称
+    help 什么都不填 -> 获取所有命令
+    """
+    args = str(event.message).strip().split(maxsplit=1)
+
+    reg = Reg()
+
+    await help_.send(reg.get_keys(*args))
+
+################ dev
+
+
+
+################ dev2
+
 class InspectReg:
     def __init__(self) -> None:
         regs = {}
@@ -110,6 +133,7 @@ class InspectReg:
             if plugin_dict:
                 dic.setdefault(name,plugin_dict)
 
+            ### 下面这段代码经常会出现bug
             doc_string = module.__doc__
             if doc_string:
                 dic.get(name,dic).setdefault("__doc__",doc_string.strip())
@@ -118,6 +142,7 @@ class InspectReg:
             subreg = {}
             generate_docs(pluginvalue.module,subreg,"__init__")
 
+            ### subplugin的判断极度容易出错
             subplugin_ = inspect.getmembers(pluginvalue.module,inspect.ismodule)
 
             for subname,items in subplugin_:
@@ -128,6 +153,9 @@ class InspectReg:
         self.dict = regs
 
     def get_plugins(self):
+        """
+        总体查询
+        """
         res = ""
         for i,j in self.dict.items():
             res += f"{i}"
@@ -140,7 +168,9 @@ class InspectReg:
         return "已安装插件:\n-----\n" + res
 
     def get_plugin(self,plugin_name):
-        
+        """
+        单个插件查询(我不知道为什么我当时没有提供查询subplugin的做法)
+        """
         plugin = self.dict.get(plugin_name)
         print(plugin)
         res = plugin_name  
@@ -163,25 +193,6 @@ class InspectReg:
         print(res)
         return res
 
-
-## main and test matcher
-
-help_ = on_command('help')
-
-
-@help_.handle()
-async def _help(bot: Bot, event: Event, state: dict):
-    """
-    help 命令名称
-    help 什么都不填 -> 获取所有命令
-    """
-    args = str(event.message).strip().split(maxsplit=1)
-
-    reg = Reg()
-
-    await help_.send(reg.get_keys(*args))
-
-
 testinghelp = on_command('testinghelp')
 
 
@@ -199,3 +210,5 @@ async def _testinghelp(bot: Bot, event: Event, state: dict):
         await testinghelp.send(inspect_reg.get_plugins())
     else:
         await testinghelp.send(inspect_reg.get_plugin(arg))
+
+################ dev2
