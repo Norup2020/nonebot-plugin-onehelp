@@ -94,11 +94,6 @@ class Reg:
                 return result
 
 
-
-
-
-
-
 class InspectReg:
     def __init__(self) -> None:
         regs = {}
@@ -119,11 +114,11 @@ class InspectReg:
             if doc_string:
                 dic.get(name,dic).setdefault("__doc__",doc_string.strip())
 
-        for pluginkey,pluginv in plugins.items():
+        for pluginkey,pluginvalue in plugins.items():
             subreg = {}
-            generate_docs(pluginv.module,subreg,"__init__")
+            generate_docs(pluginvalue.module,subreg,"__init__")
 
-            subplugin_ = inspect.getmembers(pluginv.module,inspect.ismodule)
+            subplugin_ = inspect.getmembers(pluginvalue.module,inspect.ismodule)
 
             for subname,items in subplugin_:
                 generate_docs(items,subreg,subname)
@@ -153,18 +148,18 @@ class InspectReg:
             res += "\n"
             res += plugin.get("__init__",{}).get("__doc__","") or plugin.get("__doc__","")
         res += "\n-----\n"
-        for subpln,subplv in plugin.items():
-            if subpln != "__doc__":
-                res += subpln + "\n"
-            if  isinstance(subplv,dict):
-                res += subplv.get("__doc__","")
-                mmm = ""
-                for matcher_name in subplv.keys():
+        for subplugin_key,subplugin_values in plugin.items():
+            if subplugin_key != "__doc__":
+                res += subplugin_key + "\n"
+            if  isinstance(subplugin_values,dict):
+                res += subplugin_values.get("__doc__","")
+                matcher_display_name = ""
+                for matcher_name in subplugin_values.keys():
                     if matcher_name == "__doc__":
                         continue
-                    mmm += f"\t{matcher_name}\n"
-                if mmm:
-                    res += "\n" + mmm
+                    matcher_display_name += f"\t{matcher_name}\n"
+                if matcher_display_name:
+                    res += "\n" + matcher_display_name
         print(res)
         return res
 
@@ -193,7 +188,7 @@ testinghelp = on_command('testinghelp')
 @testinghelp.handle()
 async def _testinghelp(bot: Bot, event: Event, state: dict):
     """
-    hee
+    testinghelp, 所谓的Dev2 版本
     """
 
     arg = str(event.message).strip()
@@ -201,6 +196,6 @@ async def _testinghelp(bot: Bot, event: Event, state: dict):
     inspect_reg = InspectReg()
     print(inspect_reg.dict)
     if not arg:
-        await heee.send(inspect_reg.get_plugins())
+        await testinghelp.send(inspect_reg.get_plugins())
     else:
-        await heee.send(inspect_reg.get_plugin(arg))
+        await testinghelp.send(inspect_reg.get_plugin(arg))
