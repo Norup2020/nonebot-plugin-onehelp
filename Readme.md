@@ -4,7 +4,7 @@
 
 ## dev
 
-dev路线是相对正常的一个开发路线,其风格类似于常见的[nonebot-plugin-help](https://github.com/XZhouQD/nonebot-plugin-help))插件
+dev路线是相对正常的一个开发路线,其风格类似于常见的[nonebot-plugin-help](https://github.com/XZhouQD/nonebot-plugin-help)插件
 
 通过`nonebot.matcher.matchers`的`Matcher`列表读取全部的`Matcher`, 从其中读取其层级, 再通过读取被 *`handler`函数* 装饰的函数的`__doc__`以完成读取
 
@@ -49,3 +49,7 @@ import nonebot
 
 + 修好bug
 + 修好bug
+
+## 终结所有文档的文档？(总路线TODO)
+
+实际上, 本人也在思考, 如果插件的`__doc__`本身按着[rst](https://docutils.sourceforge.io/rst.html)来写的话, 也许通过一些处理就可以直接获得本来需要通过大量的设置诸如`__plugin_name__`的变量以更加流畅完成文档
